@@ -14,5 +14,5 @@ pip install hashlib
 Just execute from bash the main.py script wich shows a simple building of the blochchain.
 
 ```bash
-python mian.py
+python main.py
 ```
