@@ -11,7 +11,7 @@ pip install hashlib
 
 ## Usage  
 
-Just execute from bash the main.py script wich shows a simple building of the blochchain.
+Just execute from bash the main.py script wich shows a simple building of the blockchain.
 
 ```bash
 python main.py
