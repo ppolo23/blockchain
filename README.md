@@ -3,6 +3,7 @@
 This is just a try about building my own blockchain with Python.
 
 ## Dependencies
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.
 
 ```bash
 pip install time
