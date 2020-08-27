@@ -1,0 +1,1 @@
+ganache-cli -a 10 -e 100 -d lottery -p 8545 -h localhost --gasPrice 0

@@ -1,0 +1,304 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Lottery Service
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+
+  /lotteries:
+    x-swagger-router-controller: lotteries.controller
+    get:
+      description: Returns a list of lotteries
+      tags:
+        - lotteries
+      operationId: getLotteries
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+    post:
+      description: Creates a new lottery
+      tags:
+        - lotteries
+      operationId: createLottery
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lotteryData
+          in: body
+          required: true
+          description: Lottery data in JSON format.
+          schema:
+            type: object
+            required:
+              - maxNumberParticipants
+              - participationPrice
+              - participationPot
+              - prize
+            properties:
+              maxNumberParticipants:
+                type: integer
+              participationPrice:
+                type: number
+              participationPot:
+                type: number
+              prize:
+                type: number
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /lotteries/{lottery_address}:
+    x-swagger-router-controller: lotteries.controller
+    get:
+      description: Return a lottery from a given id
+      tags:
+        - lotteries
+      operationId: getLottery
+      produces:
+        - application/json
+      parameters:
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+    put:
+      description: Raffle the prize of the lottery
+      tags:
+        - lotteries
+      operationId: raffle
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /lotteries/{lottery_address}/participants:
+    x-swagger-router-controller: lotteries.controller
+    get:
+      description: Return the participants of a lottery
+      tags:
+        - lotteries
+      operationId: getParticipants
+      produces:
+        - application/json
+      parameters:
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+    post:
+      description: Add a participant to the lottery
+      tags:
+        - lotteries
+      operationId: addParticipant
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+    put:
+      description: Withdraw the participation of the lottery
+      tags:
+        - lotteries
+      operationId: withdrawParticipation
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /lotteries/{lottery_address}/winner:
+    x-swagger-router-controller: lotteries.controller
+    get:
+      description: Return the winner of a lottery
+      tags:
+        - lotteries
+      operationId: getWinner
+      produces:
+        - application/json
+      parameters:
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /lotteries/{lottery_address}/prize:
+    x-swagger-router-controller: lotteries.controller
+    get:
+      description: Return the actual prize of a lottery
+      tags:
+        - lotteries
+      operationId: getPrize
+      produces:
+        - application/json
+      parameters:
+        - name: lottery_address
+          in: path
+          required: true
+          description: The lottery id
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /setLotteryStorage/{lottery_storage_addr}:
+    x-swagger-router-controller: lotteries.controller
+    put:
+      description: sets the address of eternal storage
+      tags:
+        - lotteries
+      operationId: setLotteryStorage
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lottery_storage_addr
+          in: path
+          required: true
+          description: Address of the contract
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /setLotteryInterface/{lottery_interface_addr}:
+    x-swagger-router-controller: lotteries.controller
+    put:
+      description: sets the address of lottery logic
+      tags:
+        - lotteries
+      operationId: setLotteryInterface
+      produces:
+        - application/json
+      parameters:
+        - name: private_key
+          in: header
+          required: true
+          description: Private key of the wallet
+          type: string
+        - name: lottery_interface_addr
+          in: path
+          required: true
+          description: Address of the contract
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
